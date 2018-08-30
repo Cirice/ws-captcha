@@ -13,15 +13,25 @@ from libs.redis_connector import put_captcha, get_captcha
 app = Flask(__name__)
 
 @app.route("/api/cogcaptcha/1/generate", methods=["GET"])
-def generate_captcha():
+def generate_captcha_img():
+    text, img = make_a_captcha(inline=False)
+    key = put_captcha(key=text, value=img)
+    if key:
+        return jsonify({"ok": key}), 200
+    else:
+        return jsonify({"error": "captcha creation failed"}), 810
+
+    
+@app.route("/api/cogcaptcha/2/generate", methods=["GET"])
+def generate_captcha_inline_img():
     text, img = make_a_captcha()
     key = put_captcha(key=text, value=img)
     if key:
         return jsonify({"ok": key}), 200
     else:
-        return jsonify({"error": "captcha creation failed"}), 801
+        return jsonify({"error": "captcha creation failed"}), 820
 
-
+    
 @app.route("/api/cogcaptcha/1/verify", methods=["GET"])
 def verify_captcha():
     try:
@@ -29,15 +39,15 @@ def verify_captcha():
         if captcha_text.strip():
             img = get_captcha(captcha_text)
         else:
-            return jsonify({"error": "invalid captcha text"}), 803    
+            return jsonify({"error": "invalid captcha text"}), 830   
     except Exception as err:
         print(err)
-        return jsonify({"error": "error in validating the captcha"}), 802
+        return jsonify({"error": "error in validating the captcha"}), 835
     else:
         if img:
-            return jsonify({"captcha": img}), 200
+            return jsonify({"captcha": img}), 840
         else:
-            return jsonify({"captcha": "captcha may not exist or maybe expired"}), 803
+            return jsonify({"captcha": "captcha may not exist or maybe expired"}), 845
 
 
 if __name__ == "__main__":

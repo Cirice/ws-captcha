@@ -1,26 +1,37 @@
 import random
 import base64
 
+
 from claptcha import Claptcha
+from claptcha.claptcha import ClaptchaError
 
 
-chars = 'a1b2cde4f5ghijk6l8m3nopqr0st9uvwxyzABCDEFG@HIJKLMNOPQR@STUVWXYZ'
+chars = '%a1b2cde4#f5ghijk6l8m3nopqr0st9uvwxyzABCDEFG@HIJKLMNOPQR@STUVWXYZ'
 
-def make_gibberish(length=7):
+def make_gibberish(length=8):
     return ''.join([random.choice(chars) for _ in range(length)])
 
 def make_captcha(text=make_gibberish()):
-    captcha = Claptcha(text, "../../FreeMono.ttf")
+
+    try:
+        captcha = Claptcha(text, "../../FreeMono.ttf")
+    except ClaptchaError as err:
+        print (err)
+        captcha = Claptcha(text, "src/resource/FreeMono.ttf")
+        
     _, img = captcha.bytes
     return text, base64.b64encode(img.read()).decode()
 
 def make_embedded_img(text, img):
     return text, '<img src="data:image/png;base64,{0}" alt="cogcaptcha.png">'.format(img)
 
-def make_a_captcha(length=8):
+def make_a_captcha(length=8, inline=True):
     text = make_gibberish(length)
     text, img = make_captcha(text)
-    return make_embedded_img(text, img)
+    if inline:
+        return make_embedded_img(text, img)
+    else:
+        return text, img
 
 if __name__ == "__main__":
     text, img = make_captcha()
