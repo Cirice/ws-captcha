@@ -24,8 +24,8 @@ def put_captcha(key, value, time=600):
         print(err)
         return None
     else:
-        return key, time
-
+        return key
+    
     
 def get_captcha(text):
     try:
@@ -35,26 +35,27 @@ def get_captcha(text):
 
         if value:
             value = value.decode()
+            rc.delete(key)
             
     except Exception as err:
         print(err)
         return None
     else:
-        return key, value
+        return value
 
     
 if __name__ == "__main__":
     rc = make_redis_connection()
 
-    key, time = put_captcha("key", "value", time=5)
-    print(key, time)
-
-    key = get_captcha("key")
+    key = put_captcha("key", "value", time=5)
     print(key)
+
+    value = get_captcha(key)
+    print(key, value)
 
     sleep(10)
 
-    key = get_captcha("key")
-    print(key)
+    value = get_captcha(key)
+    print(key, value)
 #    print(rc)
     
