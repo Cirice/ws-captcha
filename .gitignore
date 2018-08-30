@@ -1,6 +1,22 @@
+# python temp files
 __pycache__/
 *.pyc
+
+# textual temp file
 *~
 *#
+
+# binary file
 *.zip
 *.tar
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.gz
+*.bz2
+
+# web pages
+*.php
+*.htm
+*.html
