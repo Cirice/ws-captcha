@@ -12,7 +12,7 @@ from libs.redis_connector import put_captcha, get_captcha
 
 app = Flask(__name__)
 
-@app.route("/api/cogcaptcha/1/generate", methods=["GET"])
+@app.route("/api/captcha/1/generate", methods=["GET"])
 def generate_captcha_img():
     text, img = make_a_captcha(inline=False)
     key = put_captcha(key=text, value=img)
@@ -22,7 +22,7 @@ def generate_captcha_img():
         return jsonify({"error": "captcha creation failed"}), 810
 
     
-@app.route("/api/cogcaptcha/2/generate", methods=["GET"])
+@app.route("/api/captcha/2/generate", methods=["GET"])
 def generate_captcha_inline_img():
     text, img = make_a_captcha()
     key = put_captcha(key=text, value=img)
@@ -32,7 +32,7 @@ def generate_captcha_inline_img():
         return jsonify({"error": "captcha creation failed"}), 820
 
     
-@app.route("/api/cogcaptcha/1/verify", methods=["GET"])
+@app.route("/api/captcha/1/verify", methods=["GET"])
 def verify_captcha():
     try:
         captcha_text = request.args.get("captcha_text")
