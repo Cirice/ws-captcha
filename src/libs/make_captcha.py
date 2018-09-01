@@ -17,7 +17,7 @@ def make_captcha(text=make_gibberish()):
         captcha = Claptcha(text, "../../FreeMono.ttf")
     except ClaptchaError as err:
         print (err)
-        captcha = Claptcha(text, "src/resource/FreeMono.ttf")
+        captcha = Claptcha(text, "src/resources/FreeMono.ttf")
         
     _, img = captcha.bytes
     return text, base64.b64encode(img.read()).decode()
