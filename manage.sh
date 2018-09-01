@@ -14,13 +14,13 @@ case $1 in
 	kill -9 `ps aux | grep gunicorm | grep $app_name | awk '{ print $2 }' `
 	;;
     nginx-start)
-	nginx -c "$cwd/src/resource/nginx.conf"
+	nginx -c "$cwd/src/resources/nginx.conf"
 	;;
     nginx-stop)
 	nginx -s stop
 	;;
     redis-start)
-	redis-server "$cwd/src/resource/redis.conf"
+	redis-server "$cwd/src/resources/redis.conf"
 	;;
     redis-stop)
 	redis-cli shutdown
