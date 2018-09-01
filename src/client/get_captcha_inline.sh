@@ -2,7 +2,7 @@
 
 
 HOST_PORT="localhost:80"
-URI="/api/captcha/1/generate"
+URI="/api/captcha/2/generate"
 CURL="/usr/bin/curl"
 
 
