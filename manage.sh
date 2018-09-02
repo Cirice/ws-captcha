@@ -25,6 +25,11 @@ case $1 in
     redis-stop)
 	redis-cli shutdown
 	;;
+    start-all)
+	$shell $cwd/manage.sh redis-start;
+	$shell $cwd/manage.sh gunicorn-start;
+	$shell $cwd/manage.sh nginx-start
+	;;
     *)
 	;;
 esac
