@@ -16,6 +16,11 @@ from libs.redis_connector import put_kv, get_v
 DEBUG = os.getenv("CAPTCHA_DEBUG", None)
 app = Flask(__name__)
 
+def find_client_ip(request):
+    if request.environ.get('HTTP_X_FORWARDED_FOR'):
+        return request.environ['HTTP_X_FORWARDED_FOR']
+    else:
+        return request.environ['REMOTE_ADDR']
 
 @app.route("/api/captcha/1/generate", methods=["GET"])
 def generate_captcha_img():
@@ -47,7 +52,7 @@ def generate_captcha_inline_img():
 def verify_captcha():
     try:
         captcha_text = request.args.get("captcha_text").strip()
-        token = request.environ['REMOTE_ADDR'].strip()
+        token = find_client_ip(request).strip()
         if captcha_text:
             img = get_captcha(captcha_text)
         else:
