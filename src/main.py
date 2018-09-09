@@ -23,7 +23,7 @@ def generate_captcha_img():
     key = put_captcha(key=text, value=img)
     if key:
         if DEBUG:
-            return jsonify({"captcha-text": key, "captcha-image": img}), 200
+            return jsonify({"debug": 1, "captcha-text": key, "captcha-image": img}), 200
         else:
             return jsonify({"captcha-image": img}), 200
     else:
@@ -36,7 +36,7 @@ def generate_captcha_inline_img():
     key = put_captcha(key=text, value=img)
     if key:
         if DEBUG:
-            return jsonify({"captcha-text": key, "captcha-image": img}), 200
+            return jsonify({"debug": 1, "captcha-text": key, "captcha-image": img}), 200
         else:
             return jsonify({"captcha-image": img}), 200
     else:
