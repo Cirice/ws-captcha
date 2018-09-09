@@ -5,5 +5,10 @@
     2. ./manage.sh gunicorn-start
     3. ./mange.sh nginx-start
 
+### Alternatively you can do the following:
+    - ./manage.sh start-all
+
 ### To test the captcha webservice api use the following scripts
-    1. src/resources/client/get_captcha.sh # it should return 
+    1. src/resources/client/get_captcha.sh # it should return
+    
+    
