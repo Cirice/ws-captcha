@@ -89,7 +89,7 @@ if __name__ == "__main__":
     print(key, value)
     #print(rc)
 
-    k = put_kv("192.168.1.100", "ok", timeout=60)
+    k = put_kv("192.168.1.100", "ok", timeout=90)
 
     sleep(5)
     

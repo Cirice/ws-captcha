@@ -41,9 +41,9 @@ def generate_captcha_inline_img():
     key = put_captcha(key=text, value=img)
     if key:
         if DEBUG:
-            return jsonify({"debug": 1, "captcha-text": key, "captcha-image": img}), 200
+            return jsonify({"debug": 1, "captcha-text": key, "inline-captcha-image": img}), 200
         else:
-            return jsonify({"captcha-image": img}), 200
+            return jsonify({"inline-captcha-image": img}), 200
     else:
         return jsonify({"error": "captcha creation failed"}), 820
 
