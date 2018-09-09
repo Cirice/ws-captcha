@@ -1,5 +1,6 @@
-#!/usr/bin/env sh
+#!/bin/bash
 
+export CAPTCHA_DEBUG=1
 
 app_name="src.main:app"
 cwd=`pwd`
