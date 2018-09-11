@@ -65,7 +65,10 @@ def verify_captcha():
             return jsonify({"error": "invalid captcha text"}), 835
     except Exception as err:
         print(err)
-        return jsonify({"error": "error in validating the captcha"}), 835
+        if CAPTCHA_DEBUG:
+            return jsonify({"error": "error in validating the captcha", "stack-tarce": str(err)}), 835
+        else:
+            return jsonify({"error": "error in validating the captcha"}), 835
     else:
         if img:
             if put_kv(token, captcha_text):
@@ -86,7 +89,10 @@ def pass_client():
             return jsonify({"error": "invalid or expired token", "client-token": token}), 865
     except Exception as err:
         print(err)
-        return jsonify({"error": "you shall not pass!"}), 855
+        if CAPTCHA_DEBUG:
+            return jsonify({"error": "you shall not pass!", "stack-trace": str(err)}), 855
+        else:
+            return jsonify({"error": "you shall not pass!"}), 855
                                 
 
 if __name__ == "__main__":
