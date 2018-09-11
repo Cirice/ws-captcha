@@ -1,5 +1,7 @@
 import sys
 import os
+import hashlib
+
 
 from time import sleep
 from flask import Flask, jsonify, request
@@ -22,6 +24,10 @@ def find_client_ip(request):
     else:
         return request.environ['REMOTE_ADDR']
 
+def make_client_token(raw_token='', length=10):
+    return hashlib.sha1(raw_token.encode()).hexdigest()[0:length]
+
+    
 @app.route("/api/captcha/1/generate", methods=["GET"])
 def generate_captcha_img():
     text, img = make_a_captcha(inline=False)
@@ -52,7 +58,7 @@ def generate_captcha_inline_img():
 def verify_captcha():
     try:
         captcha_text = request.args.get("captcha_text").strip()
-        token = find_client_ip(request).strip()
+        token = make_client_token(find_client_ip(request).strip())
         if captcha_text:
             img = get_captcha(captcha_text)
         else:
