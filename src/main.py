@@ -102,6 +102,6 @@ if __name__ == "__main__":
     #value = get_captcha(key)
     #print(key, value)
     #print(text)
-    app.run(host="0.0.0.0", port=87, debug=True, threaded=False)
+    app.run(host="0.0.0.0", port=80, debug=True, threaded=False)
     
     
