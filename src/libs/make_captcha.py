@@ -6,7 +6,7 @@ from claptcha import Claptcha
 from claptcha.claptcha import ClaptchaError
 
 
-chars = '%a1b2cde4#f5ghijk6l8m3nopqr0st9uvwxyzABCDEFG@HIJKLMNOPQR@STUVWXYZ'
+chars = '%a1b2cde4f5ghijk6l8m3nopqr0st9uvwxyzABCDEFG@HIJKLMNOPQR@STUVWXYZ'
 
 def make_gibberish(length=8):
     return ''.join([random.choice(chars) for _ in range(length)])
