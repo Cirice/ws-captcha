@@ -20,6 +20,9 @@ DEBUG = os.getenv("CAPTCHA_DEBUG", None)
 app = Flask(__name__)
 
 
+def normalize_text(text):
+    return text.strip().lower()
+
 def find_client_ip(request):
     if request.environ.get('HTTP_X_FORWARDED_FOR'):
         return request.environ['HTTP_X_FORWARDED_FOR']
@@ -32,7 +35,7 @@ def make_client_token(raw_token='', length=12):
 @app.route("/api/captcha/1/generate", methods=["GET"])
 def generate_captcha_img():
     text, img = make_a_captcha(inline=False)
-    key = put_captcha(key=text, value=img)
+    key = put_captcha(key=normalize_text(text), value=img)
     if key:
         if DEBUG:
             return jsonify({"debug": 1, "captcha-text": key,
@@ -45,7 +48,7 @@ def generate_captcha_img():
 @app.route("/api/captcha/2/generate", methods=["GET"])
 def generate_captcha_inline_img():
     text, img = make_a_captcha()
-    key = put_captcha(key=text, value=img)
+    key = put_captcha(key=normalize_text(text), value=img)
     if key:
         if DEBUG:
             return jsonify({"debug": 1, "captcha-text": key,
@@ -58,8 +61,8 @@ def generate_captcha_inline_img():
 @app.route("/api/captcha/1/verify", methods=["GET"])
 def verify_captcha():
     try:
-        captcha_text = request.args.get("captcha_text").strip()
-        token = make_client_token(find_client_ip(request).strip())
+        captcha_text = normalize_text(request.args.get("captcha_text"))
+        token = normalize_text(make_client_token(find_client_ip(request).strip()))
         if captcha_text:
             img = get_captcha(captcha_text)
         else:
@@ -84,11 +87,10 @@ def verify_captcha():
 @app.route("/api/captcha/1/pass", methods=["GET"])
 def pass_client():
     try:
-        if False: #DEBUG:
-            token = make_client_token(find_client_ip(request).strip())
-            return jsonify({"client-token": token, "debug": 1}), 200
-        
-        token = request.args.get("client_token").strip()
+        #if DEBUG:
+        #    token = make_client_token(find_client_ip(request).strip())
+        #    return jsonify({"client-token": token, "debug": 1}), 200
+        token = normalize_text(request.args.get("client_token"))
         sleep(0.5)
         if get_v(token):
             return jsonify({"client-token": token}), 200

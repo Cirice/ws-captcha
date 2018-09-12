@@ -49,7 +49,3 @@ def request(flow):
                 flow.request.content = contents.encode()
         except Exception as err:
             print(err)
-            
-        print("---------------------------------------")
-        print(flow.request.content, flow.request.url)
-        print("---------------------------------------")

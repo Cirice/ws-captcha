@@ -41,7 +41,8 @@ case $1 in
 	controller_script="$cwd/src/controller.py";
 	bindhost="127.0.0.1"
 	port=88;
-	mitmdump --mode reverse:$upsatream -p $port --listen-host $bindhost -s $controller_script
+	additional_opts="-q"
+	mitmproxy --mode reverse:$upsatream -p $port --listen-host $bindhost -s $controller_script $additional_opts
 	;;
     *)
 	;;
