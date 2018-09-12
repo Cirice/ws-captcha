@@ -89,7 +89,7 @@ def pass_client():
             return jsonify({"error": "invalid or expired token", "client-token": token}), 865
     except Exception as err:
         print(err)
-        if CAPTCHA_DEBUG:
+        if DEBUG:
             return jsonify({"error": "you shall not pass!", "stack-trace": str(err)}), 855
         else:
             return jsonify({"error": "you shall not pass!"}), 855
@@ -102,6 +102,6 @@ if __name__ == "__main__":
     #value = get_captcha(key)
     #print(key, value)
     #print(text)
-    app.run(host="0.0.0.0", port=80, debug=True, threaded=False)
+    app.run(host="0.0.0.0", port=87, debug=True, threaded=False)
     
     
