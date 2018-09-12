@@ -36,6 +36,13 @@ case $1 in
 	sudo systemctl stop nginx redis-server && \
 	sudo systemctl disable nginx redis-server
 	;;
+    controller-start)
+	upsatream="http://172.20.147.101:2080";
+	controller_script="$cwd/src/controller.py";
+	bindhost="127.0.0.1"
+	port=88;
+	mitmdump --mode reverse:$upsatream -p $port --listen-host $bindhost -s $controller_script
+	;;
     *)
 	;;
 esac
