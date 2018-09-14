@@ -25,7 +25,7 @@ def make_captcha(text=make_gibberish()):
 def make_embedded_img(text, img):
     return text, '<img src="data:image/png;base64,{0}" alt="cogcaptcha.png">'.format(img)
 
-def make_a_captcha(length=8, inline=True):
+def make_a_captcha(length=5, inline=True):
     text = make_gibberish(length)
     text, img = make_captcha(text)
     if inline:

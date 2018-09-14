@@ -43,9 +43,9 @@ def request(flow):
             print("client token is %s" % token)
             if pass_client(client_token=token) != 200:
                 contents = flow.request.content.decode()
-                contents = contents.replace("CAMNamespace", "FakeNamespace")
-                contents = contents.replace("CAMUsername", "FakeUsername")
-                contents = contents.replace("CAMPassword", "FakePassword")
+                #contents = contents.replace("CAMNamespace", "FakeNamespace")
+                contents = contents.replace("CAMUsername=", "FakeUsername=")
+                contents = contents.replace("CAMPassword=", "FakePassword=")
                 flow.request.content = contents.encode()
         except Exception as err:
             print(err)

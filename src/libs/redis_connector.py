@@ -15,7 +15,7 @@ def make_redis_connection(host='localhost', port=6379, db=1):
         return rc
 
 
-def put_captcha(key, value, time=600):
+def put_captcha(key, value, time=300):
     try:
         rc = make_redis_connection()
         rc.set(key, value)
@@ -44,7 +44,7 @@ def get_captcha(text):
         return value
 
     
-def put_kv(k, v, db=2, timeout=600):
+def put_kv(k, v, db=2, timeout=60):
     try:
         rc = make_redis_connection(db=db)
         rc.set(k, v)
