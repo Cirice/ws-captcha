@@ -32,7 +32,7 @@ case $1 in
 	$shell $cwd/manage.sh nginx-start
 	;;
     install-sys-deps)
-	sudo ap-get install nginx redis-server python3-pip && \
+	sudo apt-get install nginx redis-server python3-pip && \
 	sudo systemctl stop nginx redis-server && \
 	sudo systemctl disable nginx redis-server
 	;;

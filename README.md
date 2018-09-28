@@ -11,4 +11,10 @@
 ### To test the captcha webservice api use the following scripts
     1. src/resources/client/get_captcha.sh # it should return
     
-    
+### Endpoints
+    1. [http://localhost/api/captcha/1/generate](http://localhost/api/captcha/1/generate)
+    2. [http://localhost/api/captcha/2/generate](http://localhost/api/captcha/2/generate)
+    3. [http://localhost/api/captcha/1/verify?captcha_text={CAPTCHA_TEXT}](http://localhost/api/captcha/1/verify?captcha_text={CAPTCHA_TEXT})
+    4. [http://localhost/api/captcha/1/pass?client_token={CLIENT_TOKEN}](http://localhost/api/captcha/1/pass?client_token={CLIENT_TOKEN})
+    5. 
+
