@@ -28,8 +28,13 @@ case $1 in
 	;;
     start-all)
 	$shell $cwd/manage.sh redis-start;
-	$shell $cwd/manage.sh gunicorn-start;
+        $shell $cwd/manage.sh gunicorn-start;
 	$shell $cwd/manage.sh nginx-start
+	;;
+    stop-all)
+	pkill -e gunicorn;
+	pkill -e nginx;
+	pkill -e redis
 	;;
     install-sys-deps)
 	sudo apt-get install nginx redis-server python3-pip && \
@@ -37,10 +42,10 @@ case $1 in
 	sudo systemctl disable nginx redis-server
 	;;
     controller-start)
-	upsatream="http://172.20.147.101:2080";
+	upsatream="http://172.16.224.199";
 	controller_script="$cwd/src/controller.py";
 	bindhost="127.0.0.1"
-	port=88;
+	port=98;
 	additional_opts="-q"
 	mitmproxy --mode reverse:$upsatream -p $port --listen-host $bindhost -s $controller_script $additional_opts
 	;;
