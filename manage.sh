@@ -45,7 +45,7 @@ case $1 in
 	upsatream="http://172.16.224.199";
 	controller_script="$cwd/src/controller.py";
 	bindhost="127.0.0.1"
-	port=98;
+	port=88;
 	additional_opts="-q"
 	mitmproxy --mode reverse:$upsatream -p $port --listen-host $bindhost -s $controller_script $additional_opts
 	;;
