@@ -65,7 +65,7 @@ def verify_captcha():
             return jsonify({"error": "invalid captcha text"}), 835
     except Exception as err:
         print(err)
-        if CAPTCHA_DEBUG:
+        if DEBUG:
             return jsonify({"error": "error in validating the captcha", "stack-tarce": str(err)}), 835
         else:
             return jsonify({"error": "error in validating the captcha"}), 835
