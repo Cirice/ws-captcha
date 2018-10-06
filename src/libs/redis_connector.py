@@ -3,7 +3,7 @@ import redis
 from time import sleep
 
 
-def make_redis_connection(host='localhost', port=6379, db=1):
+def make_redis_connection(host='127.0.0.1', port=6379, db=1):
     try:
         rc = redis.Redis(host, port, db=db)
         rc.set(1, "45")

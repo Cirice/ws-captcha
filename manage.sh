@@ -7,7 +7,7 @@ cwd=`pwd`
 
 case $1 in
     gunicorn-start)
-	host_port="localhost:87"
+	host_port="127.0.0.1:87"
 	num_workerz=10
 	gunicorn $app_name -b $host_port --chdir $cwd --workers $num_workerz --daemon
 	;;
@@ -36,18 +36,31 @@ case $1 in
 	pkill -e nginx;
 	pkill -e redis
 	;;
+    restart-all)
+	$shell $cwd/manage.sh stop-all;
+	$shell $cwd/manage.sh start-all
+	echo "ooh, wee!"
+	;;
     install-sys-deps)
-	sudo apt-get install nginx redis-server python3-pip && \
+	sudo apt-get install nginx redis-server python3-pip screen && \
 	sudo systemctl stop nginx redis-server && \
 	sudo systemctl disable nginx redis-server
 	;;
     controller-start)
-	upsatream="http://172.16.224.199";
+	upsatream="http://127.0.0.1:100";
 	controller_script="$cwd/src/controller.py";
 	bindhost="127.0.0.1"
 	port=88;
 	additional_opts="-q"
 	mitmproxy --mode reverse:$upsatream -p $port --listen-host $bindhost -s $controller_script $additional_opts
+	;;
+    controllerd-start)
+	upsatream="http://127.0.0.1:100";
+	controller_script="$cwd/src/controller.py";
+	bindhost="127.0.0.1"
+	port=88;
+	additional_opts="-q"
+	screen -A -m -d -S root mitmproxy --mode reverse:$upsatream -p $port --listen-host $bindhost -s $controller_script $additional_opts &
 	;;
     *)
 	;;
