@@ -24,6 +24,7 @@ def normalize_text(text):
     return text.strip().lower()
 
 def find_client_ip(request):
+    print(request.headers)
     if request.environ.get('HTTP_X_FORWARDED_FOR'):
         return request.environ['HTTP_X_FORWARDED_FOR']
     else:
@@ -32,7 +33,7 @@ def find_client_ip(request):
 def make_client_token(raw_token='', length=12):
     return hashlib.sha1(raw_token.encode()).hexdigest()[0:length]
     
-@app.route("/api/captcha/1/generate", methods=["GET"])
+@app.route("/webservice/api/captcha/1/generate", methods=["GET"])
 def generate_captcha_img():
     text, img = make_a_captcha(inline=False)
     key = put_captcha(key=normalize_text(text), value=img)
@@ -45,7 +46,7 @@ def generate_captcha_img():
     else:
         return jsonify({"error": "captcha creation failed!"}), 810
     
-@app.route("/api/captcha/2/generate", methods=["GET"])
+@app.route("/webservice/api/captcha/2/generate", methods=["GET"])
 def generate_captcha_inline_img():
     text, img = make_a_captcha()
     key = put_captcha(key=normalize_text(text), value=img)
@@ -58,7 +59,7 @@ def generate_captcha_inline_img():
     else:
         return jsonify({"error": "captcha creation failed"}), 820
 
-@app.route("/api/captcha/1/verify", methods=["GET"])
+@app.route("/webservice/api/captcha/1/verify", methods=["GET"])
 def verify_captcha():
     try:
         captcha_text = normalize_text(request.args.get("captcha_text"))
@@ -71,7 +72,12 @@ def verify_captcha():
         print(err)
         if DEBUG:
             return jsonify({"error": "error in validating the captcha",
-                            "stack-tarce": str(err), "debug": 1}), 835
+                            "stack-tarce": str(err), "debug": 1,
+                            #"request-headers": str(request.environ),
+                            "text": str((find_client_ip(request),
+                            [(k, v) for k, v in request.args.items()])),
+                            #"X": find_client_ip(request).strip()
+                            }), 835
         else:
             return jsonify({"error": "error in validating the captcha"}), 835
     else:
@@ -84,7 +90,7 @@ def verify_captcha():
         else:
             return jsonify({"error": "captcha may not exist or maybe expired"}), 845
 
-@app.route("/api/captcha/1/pass", methods=["GET"])
+@app.route("/webservice/api/captcha/1/pass", methods=["GET"])
 def pass_client():
     try:
         #if DEBUG:

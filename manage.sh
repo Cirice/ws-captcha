@@ -18,7 +18,7 @@ case $1 in
 	nginx -c "$cwd/src/resources/nginx.conf"
 	;;
     nginx-stop)
-	nginx -s stop
+	nginx -c "$cwd/src/resources/nginx.conf" -s stop
 	;;
     redis-start)
 	redis-server "$cwd/src/resources/redis.conf"
@@ -28,16 +28,25 @@ case $1 in
 	;;
     start-all)
 	$shell $cwd/manage.sh redis-start;
+	sleep 1
         $shell $cwd/manage.sh gunicorn-start;
-	$shell $cwd/manage.sh nginx-start
+	sleep 1
+	$shell $cwd/manage.sh nginx-start;
+	sleep 1
+	$shell $cwd/manage.sh controllerd-start
 	;;
     stop-all)
 	pkill -e gunicorn;
+	sleep 1
 	pkill -e nginx;
-	pkill -e redis
+	sleep 1
+	pkill -e redis;
+	sleep 1
+	pkill -e mitmproxy
 	;;
     restart-all)
 	$shell $cwd/manage.sh stop-all;
+	sleep 1
 	$shell $cwd/manage.sh start-all
 	echo "ooh, wee!"
 	;;
@@ -61,6 +70,9 @@ case $1 in
 	port=88;
 	additional_opts="-q"
 	screen -A -m -d -S root mitmproxy --mode reverse:$upsatream -p $port --listen-host $bindhost -s $controller_script $additional_opts &
+	;;
+    controller-stop)
+	pkill -e mitmproxy
 	;;
     *)
 	;;

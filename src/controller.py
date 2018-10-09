@@ -10,7 +10,7 @@ from main import make_client_token
 
 
 cognos_login_uri = "/ibmcognos/cgi-bin/cognos.cgi"
-pass_endpoint = "http://localhost:87/api/captcha/1/pass?client_token="
+pass_endpoint = "http://127.0.0.1:87/webservice/api/captcha/1/pass?client_token="
 
 def find_client_ip(flow):
     try:
