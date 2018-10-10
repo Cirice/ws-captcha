@@ -49,3 +49,16 @@ def request(flow):
                 flow.request.content = contents.encode()
         except Exception as err:
             print(err)
+
+def response(flow):
+    if flow.request.url.endswith(cognos_login_uri):
+        try:
+            keyword = "CL_PROMPT_selectNamespace_caption"
+            contents = flow.response.content.decode()
+            if keyword in contents:
+                #contents = contents.replace("BEYE", "BEEEYE")
+                #contents = contents.replace("/ibmcognos/ps/portal/js/customlogin.js", "")
+                flow.response.content = contents.encode()
+        except Exception as err:
+
+                        print(err)
